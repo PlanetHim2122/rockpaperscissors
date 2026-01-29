@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script >
+
+
+
+let humanScore = 0;
+let computerScore =0;
+
+
+function GetHumanmove(){
+    const move = prompt("Rock,Paper, or scissors?");
+    return move;
+}
+function GetComputermove(){
+    const randomNumber = Math.random();
+    
+    if(randomNumber <= 0.333){
+        return "rock";
+    }
+    else if(randomNumber <= 0.666){
+        return "paper";
+    }else{
+        return "scissors";
+    }
+}
+function PlayRound() {
+    const move = GetHumanmove();
+    const Computermove = GetComputermove();
+
+    const HumanRock = move === "rock";
+    const HumanPaper = move === "paper";
+    const HumanScissors = move === "scissors";
+    const ComputerRock = Computermove === "rock";
+    const ComputerPaper = Computermove === "paper"
+    const ComputerScissors = Computermove === "scissors"
+    if(HumanRock && ComputerRock){
+        console.log(`tie ${move} ties ${Computermove}`)
+        humanScore+=1
+        computerScore+=1
+    }
+    else if(HumanPaper && ComputerPaper){
+        console.log(`tie ${move} ties ${Computermove}`)
+
+        humanScore+=1
+        computerScore+=1
+    }
+    else if(HumanScissors && ComputerScissors){
+        console.log(`tie ${move} ties ${Computermove}`)
+        humanScore+=1
+        computerScore+=1
+    }else if(HumanRock && ComputerPaper){
+console.log(`You lose ${Computermove} beats ${move}`)
+computerScore+=1
+    } else if(HumanPaper && ComputerScissors){
+        console.log(`You lose ${Computermove} beats ${move}`)
+        computerScore+=1
+    }else if(HumanPaper && ComputerRock){
+        console.log(`You Win ${move} beats ${Computermove}`)
+        humanScore+=1
+    }else if(HumanRock && ComputerScissors){
+        console.log(`You Win ${move} beats ${Computermove}`)
+        humanScore+=1
+    }else if(HumanScissors && ComputerPaper){
+        console.log(`You Win ${move} beats ${Computermove}`)
+        humanScore+=1
+    }else if(HumanScissors && ComputerRock){
+        console.log(`You lose ${Computermove} beats ${move}`)
+        computerScore+=1
+    }
+
+    console.log("human choice: ", GetHumanmove)
+    console.log("computer choice : ", Computermove )
+}
+       console.log(GetComputermove)
+       function playGame(){
+        PlayRound();
+        PlayRound();
+        PlayRound();
+        PlayRound();
+        PlayRound();
+        if(humanScore>computerScore){
+            console.log("You Win")
+        }else if(computerScore>humanScore){
+            console.log("You lose")
+        }else{
+            console.log("You Tied")
+        }
+        console.log(`the final score was human ${humanScore} to ${computerScore}`)
+       }
+       playGame();
+    </script>
+   
+</body>
+</html>

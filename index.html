@@ -4,14 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .center{
+            text-align: center;
+        }
+        .buttoncontainer{
+            display: flex;
+            flex-direction: column;
+           gap: 16px;
+           align-items: center;
+        }
+       button{max-width: 200px;
+       padding: 16px;
+       background-color: greenyellow;
+       border-radius: 20px;
+       border-color: rgb(255, 81, 168);
+       cursor: pointer;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
 </head>
 <body>
+    <div>
+        <h1 class="center">Rock, Paper, Scissors</h1>
+        <h2 id="round" class="center"></h2>
+        <h3 class="center "id="human-score"></h3>
+        <h3 class="center"id="computerscore"></h3>
+        <br>
+       
+    </div>
+    <div class="buttoncontainer">
+        <h3 class="center">Click a button to play a round</h3>
+        <button id="rock-btn">Rock</button>
+        <button id="paper-btn">Paper</button>
+        <button id="scissors-btn">Scissors</button>
+       <button id="reset-btn">Reset Game</button>
+    </div>
+
+    <h2 id="end-game" class="hidden center"></h2>
     <script >
 
 
 
 let humanScore = 0;
 let computerScore =0;
+let round = 1;
 
 
 function GetHumanmove(){
@@ -30,8 +69,8 @@ function GetComputermove(){
         return "scissors";
     }
 }
-function PlayRound() {
-    const move = GetHumanmove();
+function PlayRound(move) {
+    //const move = GetHumanmove();
     const Computermove = GetComputermove();
 
     const HumanRock = move === "rock";
@@ -74,11 +113,37 @@ computerScore+=1
         console.log(`You lose ${Computermove} beats ${move}`)
         computerScore+=1
     }
+    round +=1;
+    setScore();
 
+    if (round > 5){
+        endGame();
+    }
     console.log("human choice: ", GetHumanmove)
     console.log("computer choice : ", Computermove )
 }
        console.log(GetComputermove)
+       function endGame(){
+        const roundElement = document.querySelector("#round");
+        roundElement.textContent = 'Game Over'
+        const btncontainer = document.querySelector(".buttoncontainer");
+        btncontainer.style.display = "none";
+        
+
+        const endGameElement = document.querySelector("#end-game")
+        endGameElement.classList.remove("hidden");
+        endGameElement.textContent = "test" ;
+
+        if(humanScore>computerScore){
+            endGameElement.textContent = "You Win"
+            endGameElement.style.color = "green";
+        }else if(computerScore>humanScore){
+            endGameElement.textContent = "You lose"
+            endGameElement.style.color = "red";
+        }else{
+            endGameElement.textContent = "You Tied"
+        }
+       }
        function playGame(){
         PlayRound();
         PlayRound();
@@ -94,8 +159,63 @@ computerScore+=1
         }
         console.log(`the final score was human ${humanScore} to computer${computerScore}`)
        }
-       playGame();
+      function setScore(){
+        const roundElement = document.querySelector("#round");
+        const humanScoreElement = document.querySelector("#human-score");
+        const computerScoreElement = document.querySelector("#computerscore");
+
+       
+        humanScoreElement.textContent = `Human Score ${humanScore}`;
+        computerScoreElement.textContent = `Computer Score ${computerScore}`;
+        roundElement.textContent = `Round ${round}`;
+      }
+      function buttonEvent(){
+        const rockButton = document.querySelector("#rock-btn");
+        const paperButton = document.querySelector("#paper-btn");
+        const scissorsButton = document.querySelector("#scissors-btn");
+
+        rockButton.addEventListener("click", function playrock(){
+            PlayRound("rock");
+        })
+        paperButton.addEventListener("click", function playpaper(){
+            PlayRound("paper");
+        })
+        scissorsButton.addEventListener("click", function playscissors(){
+            PlayRound("scissors");
+        })
+        
+      }
+      function ResetGame() {
+  const resetbtn = document.querySelector("#reset-btn");
+
+  resetbtn.addEventListener("click", function () {
+    // reset the actual game variables
+    humanScore = 0;
+    computerScore = 0;
+    round = 1;
+
+    // show buttons again (because endGame hides them)
+    const btncontainer = document.querySelector(".buttoncontainer");
+    btncontainer.style.display = "flex";
+
+    // hide end-game message again
+    const endGameElement = document.querySelector("#end-game");
+    endGameElement.classList.add("hidden");
+    endGameElement.textContent = "";
+    endGameElement.style.color = "";
+
+    // update scoreboard/round text
+    setScore();
+  });
+
+
+      }
+      setScore();
+      buttonEvent();
+      ResetGame();
+      
+       //playGame();
      </script>
    
 </body> 
-</html>
+</html>  
